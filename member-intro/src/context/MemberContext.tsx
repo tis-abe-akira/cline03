@@ -74,12 +74,13 @@ export const MemberProvider: React.FC<{ children: React.ReactNode }> = ({ childr
   const reorderMembers = useCallback((result: DragDropResult) => {
     if (!result.destination) return;
 
-    const items = Array.from(members);
-    const [reorderedItem] = items.splice(result.source.index, 1);
-    items.splice(result.destination.index, 0, reorderedItem);
-
-    setMembers(items);
-  }, [members]);
+    setMembers(prev => {
+      const items = Array.from(prev);
+      const [reorderedItem] = items.splice(result.source.index, 1);
+      items.splice(result.destination!.index, 0, reorderedItem);
+      return items;
+    });
+  }, []); // membersを依存配列から削除
 
   return (
     <MemberContext.Provider value={{

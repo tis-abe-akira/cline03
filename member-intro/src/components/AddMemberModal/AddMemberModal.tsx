@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useRef } from 'react';
+import React, { useState, useCallback, useRef, useEffect } from 'react';
 import {
   Dialog,
   DialogTitle,
@@ -29,11 +29,31 @@ export const AddMemberModal: React.FC<AddMemberModalProps> = ({
   const { addMember, updateMember, tags } = useMemberContext();
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const [name, setName] = useState(editMember?.name || '');
-  const [introduction, setIntroduction] = useState(editMember?.introduction || '');
-  const [selectedTags, setSelectedTags] = useState<Tag[]>(editMember?.tags || []);
-  const [imageUrl, setImageUrl] = useState(editMember?.imageUrl || '');
-  const [previewUrl, setPreviewUrl] = useState(editMember?.imageUrl || '');
+  const [name, setName] = useState('');
+  const [introduction, setIntroduction] = useState('');
+  const [selectedTags, setSelectedTags] = useState<Tag[]>([]);
+  const [imageUrl, setImageUrl] = useState('');
+  const [previewUrl, setPreviewUrl] = useState('');
+
+  // モーダルが開かれたときにstateを初期化
+  useEffect(() => {
+    if (open) {
+      if (editMember) {
+        setName(editMember.name);
+        setIntroduction(editMember.introduction);
+        setSelectedTags(editMember.tags);
+        setImageUrl(editMember.imageUrl);
+        setPreviewUrl(editMember.imageUrl);
+      } else {
+        // 新規追加の場合は全てクリア
+        setName('');
+        setIntroduction('');
+        setSelectedTags([]);
+        setImageUrl('');
+        setPreviewUrl('');
+      }
+    }
+  }, [open, editMember]);
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
