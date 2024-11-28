@@ -1,10 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Box, Container, Fab } from '@mui/material';
 import { Add as AddIcon } from '@mui/icons-material';
-import { DragDropContext, Droppable } from 'react-beautiful-dnd';
+import { DragDropContext, Droppable, DropResult } from 'react-beautiful-dnd';
 import { MemberCard } from '../MemberCard/MemberCard';
 import { useMemberContext } from '../../context/MemberContext';
-import { DragDropResult } from '../../types';
 
 interface MemberListProps {
   onAddClick: () => void;
@@ -17,7 +16,7 @@ export const MemberList: React.FC<MemberListProps> = ({
 }) => {
   const { members, reorderMembers } = useMemberContext();
 
-  const handleDragEnd = (result: DragDropResult) => {
+  const handleDragEnd = (result: DropResult) => {
     if (!result.destination) return;
     reorderMembers(result);
   };

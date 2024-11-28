@@ -13,11 +13,4 @@ export interface Tag {
   category: 'POSITION' | 'HOBBY' | 'OTHER';
 }
 
-export interface DragDropResult {
-  source: {
-    index: number;
-  };
-  destination?: {
-    index: number;
-  };
-}
+// DragDropResultの型定義を削除（react-beautiful-dndの型を直接使用）

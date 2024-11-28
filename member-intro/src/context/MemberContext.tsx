@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useCallback } from 'react';
-import { Member, Tag, DragDropResult } from '../types';
+import { DropResult } from 'react-beautiful-dnd';
+import { Member, Tag } from '../types';
 
 interface MemberContextType {
   members: Member[];
@@ -9,7 +10,7 @@ interface MemberContextType {
   deleteMember: (id: string) => void;
   addTag: (tag: Omit<Tag, 'id'>) => void;
   deleteTag: (id: string) => void;
-  reorderMembers: (result: DragDropResult) => void;
+  reorderMembers: (result: DropResult) => void;
 }
 
 // Sample data
@@ -71,7 +72,7 @@ export const MemberProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     })));
   }, []);
 
-  const reorderMembers = useCallback((result: DragDropResult) => {
+  const reorderMembers = useCallback((result: DropResult) => {
     if (!result.destination) return;
 
     setMembers(prev => {
@@ -80,7 +81,7 @@ export const MemberProvider: React.FC<{ children: React.ReactNode }> = ({ childr
       items.splice(result.destination!.index, 0, reorderedItem);
       return items;
     });
-  }, []); // membersを依存配列から削除
+  }, []);
 
   return (
     <MemberContext.Provider value={{
